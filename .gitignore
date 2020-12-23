@@ -1,0 +1,5 @@
+.env
+.venv
+**swp
+alarm.egg-info/
+test/__pycache__
