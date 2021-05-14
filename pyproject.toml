@@ -10,6 +10,7 @@ readme = "README.rst"
 python = "^3.7"
 playsound = "^1.2"
 python-decouple = "^3.3"
+pyobjc = "^7.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
