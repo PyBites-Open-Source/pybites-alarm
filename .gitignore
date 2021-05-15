@@ -2,4 +2,4 @@
 .venv
 **swp
 alarm.egg-info/
-test/__pycache__
+__pycache__
