@@ -33,10 +33,10 @@ def get_args():
 
     duration_group = parser.add_mutually_exclusive_group(required=True)
     duration_group.add_argument(
-        "-s", "--seconds", help="Number of seconds before playing alarm"
+        "-s", "--seconds", type=int, help="Number of seconds before playing alarm"
     )
     duration_group.add_argument(
-        "-m", "--minutes", help="Number of minutes before playing alarm"
+        "-m", "--minutes", type=int, help="Number of minutes before playing alarm"
     )
 
     run_mode_group = parser.add_mutually_exclusive_group()
