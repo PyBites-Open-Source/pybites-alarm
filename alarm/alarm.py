@@ -1,17 +1,12 @@
 import argparse
 import os
 from pathlib import Path
-from typing import Optional, Union
 import random
 import sys
 import time
 
 from dotenv import load_dotenv
 from playsound import playsound
-
-load_dotenv()
-
-ALARM_MUSIC_FILE = os.environ.get("ALARM_MUSIC_FILE")
 
 
 def countdown_and_play_alarm(
@@ -61,24 +56,23 @@ def get_args():
         "-l", "--song_library", help="Take a random song from a song library directory"
     )
     alarm_file_group.add_argument(
-        "-f",
-        "--file",
-        default=ALARM_MUSIC_FILE,
-        help="File path to song to play as alarm",
+        "-f", "--file", help="File path to song to play as alarm"
     )
     return parser.parse_args()
 
 
-def _get_file(args) -> Union[str, os.PathLike[str]]:
+def _get_file(args) -> str:
     if args.song_library:
         music_files = list(Path(args.song_library).rglob("*.mp[34]"))
         return str(random.choice(music_files))
     elif args.file:
         return args.file
-    return ALARM_MUSIC_FILE
+    else:
+        load_dotenv()
+        return os.environ["ALARM_MUSIC_FILE"]
 
 
-def _validate_file(file: Union[str, os.PathLike[str]]) -> None:
+def _validate_file(file: str) -> None:
     if not Path(file).exists():
         raise RuntimeError(f"{file} does not exist")
     allowed_extensions = ("mp3", "mp4")
@@ -88,7 +82,7 @@ def _validate_file(file: Union[str, os.PathLike[str]]) -> None:
         )
 
 
-def get_alarm_file(args) -> Optional[str]:
+def get_alarm_file(args) -> str:
     file = _get_file(args)
     _validate_file(file)
     return file
