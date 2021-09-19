@@ -1,16 +1,16 @@
 [tool.poetry]
 name = "alarm"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
-authors = ["Bob Belderbos <bobbelderbos@gmail.com>"]
+authors = ["PyBites <support@pybit.es>"]
 license = "MIT"
 readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.7"
 playsound = "^1.2"
-python-decouple = "^3.3"
 pyobjc = "^7.2"
+python-dotenv = "^0.19.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"

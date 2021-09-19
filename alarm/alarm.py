@@ -1,58 +1,122 @@
+import argparse
+import os
 from pathlib import Path
+from typing import Optional, Union
+import random
 import sys
 import time
 
-from decouple import config
-from playsound import playsound  # requires PyObjC (Mac)
+from dotenv import load_dotenv
+from playsound import playsound
 
-ALARM_MUSIC_FILE = config('ALARM_MUSIC_FILE')
-SECONDS_IN_MIN = 60
-POMODORO_TIMING = 25 * SECONDS_IN_MIN
+load_dotenv()
 
-if not Path(ALARM_MUSIC_FILE).exists():
-    sys.exit(f"Cannot locate music file: [{ALARM_MUSIC_FILE}]")
+ALARM_MUSIC_FILE = os.environ.get("ALARM_MUSIC_FILE")
 
 
-def countdown(seconds: int) -> None:
+def countdown_and_play_alarm(
+    seconds: int, alarm_file: str, display_timer: bool = False
+) -> None:
     while seconds:
-        mins, secs = divmod(seconds, SECONDS_IN_MIN)
-        print(f'{mins:02}:{secs:02}', end="\r")
+        mins, secs = divmod(seconds, 60)
+        if display_timer:
+            print(f"{mins:02}:{secs:02}", end="\r")
         time.sleep(1)
         seconds -= 1
 
-    print("00:00", end="\r")
-    playsound(ALARM_MUSIC_FILE)
+    if display_timer:
+        print("00:00", end="\r")
+    playsound(alarm_file)
 
 
-def main():
-    while True:
-        minutes = input(
-            ("Enter minutes till alarm (hit enter for a "
-             "standard pomodoro (25 min), 'q' for exit) "))
-        seconds = POMODORO_TIMING
+def get_args():
+    parser = argparse.ArgumentParser("Play an alarm after N minutes")
 
-        if minutes.lower() == 'q':
-            print('Bye')
-            break
+    duration_group = parser.add_mutually_exclusive_group(required=True)
+    duration_group.add_argument(
+        "-s", "--seconds", help="Number of seconds before playing alarm"
+    )
+    duration_group.add_argument(
+        "-m", "--minutes", help="Number of minutes before playing alarm"
+    )
 
-        elif minutes:
-            try:
-                minutes = int(minutes)
-            except ValueError:
-                print('Minutes needs to be an integer')
-                continue
-            else:
-                seconds = minutes * 60
+    run_mode_group = parser.add_mutually_exclusive_group()
+    run_mode_group.add_argument(
+        "-b",
+        "--background",
+        action="store_true",
+        default=False,
+        help="Run timer in the background",
+    )
+    run_mode_group.add_argument(
+        "-d",
+        "--display_timer",
+        action="store_true",
+        default=False,
+        help="Show timer in console",
+    )
 
-        try:
-            countdown(seconds)
-        except KeyboardInterrupt:
-            print('Interruption, starting over ...')
+    alarm_file_group = parser.add_mutually_exclusive_group()
+    alarm_file_group.add_argument(
+        "-l", "--song_library", help="Take a random song from a song library directory"
+    )
+    alarm_file_group.add_argument(
+        "-f",
+        "--file",
+        default=ALARM_MUSIC_FILE,
+        help="File path to song to play as alarm",
+    )
+    return parser.parse_args()
 
 
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        minutes = int(sys.argv[1])
-        countdown(minutes * 60)
+def _get_file(args) -> Union[str, os.PathLike[str]]:
+    if args.song_library:
+        music_files = list(Path(args.song_library).rglob("*.mp[34]"))
+        return str(random.choice(music_files))
+    elif args.file:
+        return args.file
+    return ALARM_MUSIC_FILE
+
+
+def _validate_file(file: Union[str, os.PathLike[str]]) -> None:
+    if not Path(file).exists():
+        raise RuntimeError(f"{file} does not exist")
+    allowed_extensions = ("mp3", "mp4")
+    if not Path(file).suffix.endswith(allowed_extensions):
+        raise RuntimeError(
+            f"{file} is not supported ({', '.join(allowed_extensions)} files are)"
+        )
+
+
+def get_alarm_file(args) -> Optional[str]:
+    file = _get_file(args)
+    _validate_file(file)
+    return file
+
+
+def main(args=None):
+    if args is None:
+        args = get_args()
+
+    minutes = int(args.seconds) / 60 if args.seconds else int(args.minutes)
+    if args.background:
+        print(f"Playing alarm in {minutes} minute{'' if minutes == 1 else 's'}")
+
+        package = __package__
+        module = Path(sys.argv[0]).stem
+
+        os.system(f"python -m {package}.{module} -m {minutes} &")
     else:
-        main()
+        seconds = minutes * 60
+        try:
+            alarm_file = get_alarm_file(args)
+            countdown_and_play_alarm(
+                seconds, alarm_file, display_timer=args.display_timer
+            )
+            sys.exit(0)
+        except KeyboardInterrupt:
+            pass
+
+
+if __name__ == "__main__":
+    main()
