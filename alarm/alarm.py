@@ -21,6 +21,7 @@ class AlarmFileException(Exception):
 def countdown_and_play_alarm(
     seconds: int, alarm_file: str, display_timer: bool = False
 ) -> None:
+    """Countdown N seconds then play an alarm file"""
     while seconds:
         mins, secs = divmod(seconds, 60)
         if display_timer:
@@ -34,10 +35,13 @@ def countdown_and_play_alarm(
     play_alarm_file(alarm_file)
 
 
-def play_alarm_file(alarm_file: str) -> None:
+def play_alarm_file(alarm_file: str, timeout: int = ALARM_DURATION_IN_SECONDS) -> None:
+    """Play alarm file for a number of seconds, got the idea for timeout
+       from here: https://stackoverflow.com/a/52995334
+    """
     proc = multiprocessing.Process(target=playsound, args=(alarm_file,))
     proc.start()
-    proc.join(timeout=ALARM_DURATION_IN_SECONDS)
+    proc.join(timeout=timeout)
     proc.terminate()
 
 
@@ -79,6 +83,7 @@ def get_args():
 
 
 def _get_file(args) -> str:
+    """Get alarm song file from library, passed in file or environment"""
     if args.song_library:
         music_files = list(Path(args.song_library).rglob("*.mp[34]"))
         if not music_files:
@@ -91,6 +96,7 @@ def _get_file(args) -> str:
 
 
 def _validate_file(file: str) -> None:
+    """Make sure we get a music file that exists"""
     if not Path(file).exists():
         raise AlarmFileException(f"{file} does not exist")
     allowed_extensions = ("mp3", "mp4")
