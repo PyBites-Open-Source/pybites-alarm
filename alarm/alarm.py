@@ -9,6 +9,8 @@ import time
 from dotenv import load_dotenv
 from playsound import playsound
 
+from . import __version__ as version
+
 load_dotenv()
 
 ALARM_DURATION_IN_SECONDS = int(os.environ.get("ALARM_DURATION_IN_SECONDS", 20))
@@ -84,6 +86,9 @@ def parse_args(args):
     )
     alarm_file_group.add_argument(
         "-f", "--file", help="File path to song to play as alarm"
+    )
+    alarm_file_group.add_argument(
+        "-v", "--version", action="version", version=f"%(prog)s {version}"
     )
     return parser.parse_args(args)
 
