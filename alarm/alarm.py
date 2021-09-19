@@ -49,7 +49,10 @@ def parse_args(args):
     """Passing in args makes this easier to test:
        https://stackoverflow.com/a/18161115
     """
-    parser = argparse.ArgumentParser("Play an alarm after N minutes")
+    parser = argparse.ArgumentParser(
+        description="Play an alarm after N minutes",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
 
     duration_group = parser.add_mutually_exclusive_group(required=True)
     duration_group.add_argument(
