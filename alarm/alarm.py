@@ -123,8 +123,8 @@ def get_alarm_file(args) -> str:
     return file
 
 
-def main():
-    args = parse_args(sys.argv[1:])
+def main(args=None):
+    args = args if args else parse_args(sys.argv[1:])
 
     if args.seconds:
         seconds = int(args.seconds)
