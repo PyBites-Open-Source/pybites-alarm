@@ -1,12 +1,17 @@
 import argparse
 import os
 from pathlib import Path
+import multiprocessing
 import random
 import sys
 import time
 
 from dotenv import load_dotenv
 from playsound import playsound
+
+load_dotenv()
+
+ALARM_DURATION_IN_SECONDS = os.environ.get("ALARM_DURATION_IN_SECONDS", 20)
 
 
 class AlarmFileException(Exception):
@@ -25,7 +30,15 @@ def countdown_and_play_alarm(
 
     if display_timer:
         print("00:00", end="\r")
-    playsound(alarm_file)
+
+    play_alarm_file(alarm_file)
+
+
+def play_alarm_file(alarm_file: str) -> None:
+    proc = multiprocessing.Process(target=playsound, args=(alarm_file,))
+    proc.start()
+    proc.join(timeout=ALARM_DURATION_IN_SECONDS)
+    proc.terminate()
 
 
 def get_args():
@@ -74,7 +87,6 @@ def _get_file(args) -> str:
     elif args.file:
         return args.file
     else:
-        load_dotenv()
         return os.environ["ALARM_MUSIC_FILE"]
 
 
@@ -108,7 +120,12 @@ def main(args=None):
     alarm_file = get_alarm_file(args)
 
     if args.background:
-        print(f"Playing alarm in {minutes} minute{'' if minutes == 1 else 's'}")
+        if minutes < 1:
+            time_till_alarm = f"{seconds} seconds"
+        else:
+            time_till_alarm = f"{minutes} minute{'' if minutes == 1 else 's'}"
+
+        print(f"Playing alarm in {time_till_alarm}")
 
         package = __package__
         module = Path(sys.argv[0]).stem
