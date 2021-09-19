@@ -11,7 +11,7 @@ from playsound import playsound
 
 load_dotenv()
 
-ALARM_DURATION_IN_SECONDS = os.environ.get("ALARM_DURATION_IN_SECONDS", 20)
+ALARM_DURATION_IN_SECONDS = int(os.environ.get("ALARM_DURATION_IN_SECONDS", 20))
 
 
 class AlarmFileException(Exception):
