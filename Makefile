@@ -14,5 +14,9 @@ typing:
 test:
 	poetry run pytest
 
+.PHONY: coverage
+coverage:
+	poetry run pytest --cov=alarm --cov-report term-missing
+
 .PHONY: ci
 ci: lint test

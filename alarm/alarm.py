@@ -45,7 +45,10 @@ def play_alarm_file(alarm_file: str, timeout: int = ALARM_DURATION_IN_SECONDS) -
     proc.terminate()
 
 
-def get_args():
+def parse_args(args):
+    """Passing in args makes this easier to test:
+       https://stackoverflow.com/a/18161115
+    """
     parser = argparse.ArgumentParser("Play an alarm after N minutes")
 
     duration_group = parser.add_mutually_exclusive_group(required=True)
@@ -79,7 +82,7 @@ def get_args():
     alarm_file_group.add_argument(
         "-f", "--file", help="File path to song to play as alarm"
     )
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def _get_file(args) -> str:
@@ -99,7 +102,7 @@ def _validate_file(file: str) -> None:
     """Make sure we get a music file that exists"""
     if not Path(file).exists():
         raise AlarmFileException(f"{file} does not exist")
-    allowed_extensions = ("mp3", "mp4")
+    allowed_extensions = ("mp3", "mp4", "wav")
     if not Path(file).suffix.endswith(allowed_extensions):
         raise AlarmFileException(
             f"{file} is not supported ({', '.join(allowed_extensions)} files are)"
@@ -112,10 +115,7 @@ def get_alarm_file(args) -> str:
     return file
 
 
-def main(args=None):
-    if args is None:
-        args = get_args()
-
+def main(args):
     if args.seconds:
         seconds = int(args.seconds)
         minutes = seconds / 60
@@ -142,10 +142,10 @@ def main(args=None):
             countdown_and_play_alarm(
                 seconds, alarm_file, display_timer=args.display_timer
             )
-            sys.exit(0)
-        except KeyboardInterrupt:
+        except KeyboardInterrupt:  # pragma: no cover
             pass
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__":  # pragma: no cover
+    args = parse_args(sys.argv[1:])
+    main(args)
