@@ -105,16 +105,17 @@ def main(args=None):
         minutes = int(args.minutes)
         seconds = minutes * 60
 
+    alarm_file = get_alarm_file(args)
+
     if args.background:
         print(f"Playing alarm in {minutes} minute{'' if minutes == 1 else 's'}")
 
         package = __package__
         module = Path(sys.argv[0]).stem
 
-        os.system(f"python -m {package}.{module} -s {seconds} &")
+        os.system(f"python -m {package}.{module} -s {seconds} -f '{alarm_file}' &")
     else:
         try:
-            alarm_file = get_alarm_file(args)
             countdown_and_play_alarm(
                 seconds, alarm_file, display_timer=args.display_timer
             )
