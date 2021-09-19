@@ -118,7 +118,9 @@ def get_alarm_file(args) -> str:
     return file
 
 
-def main(args):
+def main():
+    args = parse_args(sys.argv[1:])
+
     if args.seconds:
         seconds = int(args.seconds)
         minutes = seconds / 60
@@ -150,5 +152,4 @@ def main(args):
 
 
 if __name__ == "__main__":  # pragma: no cover
-    args = parse_args(sys.argv[1:])
-    main(args)
+    main()
