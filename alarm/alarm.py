@@ -9,6 +9,10 @@ from dotenv import load_dotenv
 from playsound import playsound
 
 
+class AlarmFileException(Exception):
+    """To be used in case of an invalid alarm file"""
+
+
 def countdown_and_play_alarm(
     seconds: int, alarm_file: str, display_timer: bool = False
 ) -> None:
@@ -64,6 +68,8 @@ def get_args():
 def _get_file(args) -> str:
     if args.song_library:
         music_files = list(Path(args.song_library).rglob("*.mp[34]"))
+        if not music_files:
+            raise AlarmFileException(f"No music files found in {args.song_library}")
         return str(random.choice(music_files))
     elif args.file:
         return args.file
@@ -74,10 +80,10 @@ def _get_file(args) -> str:
 
 def _validate_file(file: str) -> None:
     if not Path(file).exists():
-        raise RuntimeError(f"{file} does not exist")
+        raise AlarmFileException(f"{file} does not exist")
     allowed_extensions = ("mp3", "mp4")
     if not Path(file).suffix.endswith(allowed_extensions):
-        raise RuntimeError(
+        raise AlarmFileException(
             f"{file} is not supported ({', '.join(allowed_extensions)} files are)"
         )
 
