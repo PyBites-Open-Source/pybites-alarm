@@ -1,3 +1,3 @@
-from importlib.metadata import version
+"""A package to play an alarm after an interval"""
 
-__version__ = version(__name__)
+__version__ = "0.0.1"
