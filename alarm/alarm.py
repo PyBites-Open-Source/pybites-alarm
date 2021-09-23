@@ -103,9 +103,10 @@ def _get_file(args) -> str:
     """Get alarm song file from library, passed in file or environment"""
     if args.song_library:
         music_files = list(Path(args.song_library).rglob("*.mp[34]"))
-        if not music_files:
-            raise AlarmFileException(f"No music files found in {args.song_library}")
-        return str(random.choice(music_files))
+        if music_files:
+            return str(random.choice(music_files))
+        else:
+            return ""
     elif args.file:
         return args.file
     else:

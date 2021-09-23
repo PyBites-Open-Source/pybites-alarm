@@ -18,6 +18,7 @@ from alarm.alarm import (
 
 BIRDS_ALARM_FILE = Path("tests") / "payloads" / "birds.wav"
 FAKE_FILE = Path("tests") / "payloads" / "file.mp4"
+NOT_SUPPORTED_ERROR = "is not supported.*.wav, .mp3, .mp4"
 
 
 @patch("alarm.alarm.play_alarm_file")
@@ -36,8 +37,9 @@ def test_play_alarm_file():
 
 def test_get_file_for_empty_library(tmpdir):
     args = parse_args(["-s", "3", "-l", str(tmpdir)])
-    with pytest.raises(AlarmFileException, match="No music files"):
-        _get_file(args)
+    with pytest.raises(AlarmFileException, match=NOT_SUPPORTED_ERROR):
+        file = _get_file(args)
+        _validate_file(file)
 
 
 def test_get_file_for_filled_library(tmpdir):
@@ -65,7 +67,7 @@ def test_validate_file():
     with pytest.raises(AlarmFileException, match="does not exist"):
         file = Path("tests") / "birds2.wav"
         _validate_file(file)
-    with pytest.raises(AlarmFileException, match="is not supported"):
+    with pytest.raises(AlarmFileException, match=NOT_SUPPORTED_ERROR):
         file = Path("tests") / "test_alarm.py"
         _validate_file(file)
 
