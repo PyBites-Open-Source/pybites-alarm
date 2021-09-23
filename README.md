@@ -1,13 +1,14 @@
 # PyBites Alarm
 
-Play a music file after an interval of N minutes.
+Play a music file after an interval of N minutes. You can configure the tune to play ...
 
 ## Setup
 
 ```
-git clone git@github.com:pybites/pbalarm.git
-cd pbalarm
-poetry install
+git clone git@github.com:PyBites-Open-Source/pybites-alarm.git
+cd pybites-alarm
+make install
+make test
 ```
 
 ## Configure
@@ -19,34 +20,26 @@ $ cat .env
 ALARM_MUSIC_FILE=/Users/bbelderbos/Music/alarm.mp4
 ```
 
-## Demo
+You can also set `ALARM_DURATION_IN_SECONDS=<number_of_seconds_int>` to stop the alarm after N seconds.
 
-You can run it inside the checkout directory using: `poetry run alarm`.
-
-To run it from anywhere add this to your `~/.zshrc` (or `~/.bashrc`):
+## Usage
 
 ```
-function alarm() {
-    cd $HOME/code/alarm
-    poetry run python -m alarm.alarm $1
-}
+$ python -m alarm.alarm -h
+usage: alarm.py [-h] (-s SECONDS | -m MINUTES) [-b | -d] [-l SONG_LIBRARY | -f FILE | -v]
+
+Play an alarm after N minutes
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s SECONDS, --seconds SECONDS
+                        Number of seconds before playing alarm (default: None)
+  -m MINUTES, --minutes MINUTES
+                        Number of minutes before playing alarm (default: None)
+  -b, --background      Run timer in the background (default: False)
+  -d, --display_timer   Show timer in console (default: False)
+  -l SONG_LIBRARY, --song_library SONG_LIBRARY
+                        Take a random song from a song library directory, supported formats: .mp3, .mp4, .wav (default: None)
+  -f FILE, --file FILE  File path to song to play as alarm (default: None)
+  -v, --version         show program's version number and exit
 ```
-
-Now I can run it with a number of minutes:
-
-```
-$ alarm 2
-02:00
-```
-
-When the timer ends it will play your configured audio file.
-
-Or you can set the interval in interactive mode:
-
-```
-$ alarm
-Enter minutes till alarm (hit enter for a standard pomodoro (25 min), 'q' for exit) 5
-05:00
-```
-
-Enjoy!
