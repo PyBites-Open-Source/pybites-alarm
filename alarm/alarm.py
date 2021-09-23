@@ -1,5 +1,4 @@
 import argparse
-import re
 import os
 from pathlib import Path
 import multiprocessing
@@ -41,7 +40,7 @@ def countdown_and_play_alarm(
 
 def play_alarm_file(alarm_file: str, timeout: int = ALARM_DURATION_IN_SECONDS) -> None:
     """Play alarm file for a number of seconds, got the idea for timeout
-       from here: https://stackoverflow.com/a/52995334
+    from here: https://stackoverflow.com/a/52995334
     """
     proc = multiprocessing.Process(target=playsound, args=(alarm_file,))
     proc.start()
@@ -51,7 +50,7 @@ def play_alarm_file(alarm_file: str, timeout: int = ALARM_DURATION_IN_SECONDS) -
 
 def parse_args(args):
     """Passing in args makes this easier to test:
-       https://stackoverflow.com/a/18161115
+    https://stackoverflow.com/a/18161115
     """
     parser = argparse.ArgumentParser(
         description="Play an alarm after N minutes",
@@ -103,9 +102,9 @@ def parse_args(args):
 def _get_file(args) -> str:
     """Get alarm song file from library, passed in file or environment"""
     if args.song_library:
-        extensions = "|".join(ALLOWED_EXTENSIONS)
-        pat = re.compile(rf".*(?:{extensions})$")
-        music_files = [f for f in os.listdir(Path(args.song_library)) if pat.match(f)]
+        # regex of allowed extensions in rglob did not work
+        files = Path(args.song_library).rglob("*")
+        music_files = [f for f in files if f.suffix in ALLOWED_EXTENSIONS]
         if music_files:
             return str(random.choice(music_files))
         else:

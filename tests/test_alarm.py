@@ -42,7 +42,7 @@ def test_get_file_for_empty_library(tmpdir):
         _validate_file(file)
 
 
-def test_get_file_for_filled_library(tmpdir):
+def test_get_file_for_filled_mp3_library(tmpdir):
     music_dir = tmpdir
     songs = {music_dir / f"{song}.mp3" for song in "live love train enjoy".split()}
     for song in songs:
@@ -51,14 +51,14 @@ def test_get_file_for_filled_library(tmpdir):
     assert _get_file(args) in songs
 
 
-def test_get_file_for_filled_wav_library(tmpdir):
+def test_get_file_for_one_wav_file(tmpdir):
     wav_file = "my_song.wav"
     open(tmpdir / wav_file, "a").close()
     args = parse_args(["-s", "3", "-l", str(tmpdir)])
-    assert _get_file(args) == wav_file
+    assert Path(_get_file(args)).name == wav_file
 
 
-def test_get_file_for_empty_library(tmpdir):
+def test_get_file_for_one_txt_file(tmpdir):
     txt_file = "notes.txt"
     open(tmpdir / txt_file, "a").close()
     args = parse_args(["-s", "3", "-l", str(tmpdir)])

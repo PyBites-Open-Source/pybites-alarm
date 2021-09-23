@@ -1,22 +1,22 @@
 .PHONY: setup
 setup:
-	poetry install
+	python3 -m venv venv && source venv/bin/activate && pip install -r requirements-dev.txt
 
 .PHONY: lint
 lint:
-	poetry run flake8 --exclude venv
+	flake8 --exclude venv
 
 .PHONY: typing
 typing:
-	poetry run mypy alarm tests
+	mypy alarm tests
 
 .PHONY: test
 test:
-	poetry run pytest
+	pytest
 
 .PHONY: coverage
 coverage:
-	poetry run pytest --cov=alarm --cov-report term-missing
+	pytest --cov=alarm --cov-report term-missing
 
 .PHONY: ci
 ci: lint test
