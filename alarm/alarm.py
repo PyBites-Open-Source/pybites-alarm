@@ -88,7 +88,7 @@ def parse_args(args):
         "--song_library",
         help=(
             "Take a random song from a song library directory, "
-            f"supported formats: {', '.join(ALLOWED_EXTENSIONS)}"
+            f"supported formats: {', '.join(sorted(ALLOWED_EXTENSIONS))}"
         ),
     )
     alarm_file_group.add_argument(
@@ -122,7 +122,7 @@ def _validate_file(file: str) -> None:
         raise AlarmFileException(f"{file} does not exist")
     if not Path(file).suffix in ALLOWED_EXTENSIONS:
         raise AlarmFileException(
-            f"{file} is not supported ({', '.join(ALLOWED_EXTENSIONS)} files are)"
+            f"{file} is not supported ({', '.join(sorted(ALLOWED_EXTENSIONS))} files are)"
         )
 
 
