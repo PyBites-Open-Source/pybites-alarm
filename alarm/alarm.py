@@ -121,7 +121,7 @@ def _validate_file(file: str) -> None:
         raise AlarmFileException(f"{file} does not exist")
     if not Path(file).suffix in ALLOWED_EXTENSIONS:
         raise AlarmFileException(
-            f"{file} is not supported ({', '.join(sorted(ALLOWED_EXTENSIONS))} files are)"
+            f"{file} is not supported. {', '.join(sorted(ALLOWED_EXTENSIONS))} are."
         )
 
 
