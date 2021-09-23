@@ -1,4 +1,5 @@
 import argparse
+import re
 import os
 from pathlib import Path
 import multiprocessing
@@ -102,7 +103,9 @@ def parse_args(args):
 def _get_file(args) -> str:
     """Get alarm song file from library, passed in file or environment"""
     if args.song_library:
-        music_files = list(Path(args.song_library).rglob("*.mp[34]"))
+        extensions = "|".join(ALLOWED_EXTENSIONS)
+        pat = re.compile(rf".*(?:{extensions})$")
+        music_files = [f for f in os.listdir(Path(args.song_library)) if pat.match(f)]
         if music_files:
             return str(random.choice(music_files))
         else:
