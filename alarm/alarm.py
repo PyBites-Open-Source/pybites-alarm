@@ -14,6 +14,7 @@ from . import __version__
 load_dotenv()
 
 ALARM_DURATION_IN_SECONDS = int(os.environ.get("ALARM_DURATION_IN_SECONDS", 20))
+ALLOWED_EXTENSIONS = {".mp3", ".mp4", ".wav"}
 
 
 class AlarmFileException(Exception):
@@ -82,7 +83,12 @@ def parse_args(args):
 
     alarm_file_group = parser.add_mutually_exclusive_group()
     alarm_file_group.add_argument(
-        "-l", "--song_library", help="Take a random song from a song library directory"
+        "-l",
+        "--song_library",
+        help=(
+            "Take a random song from a song library directory, "
+            f"supported formats: {', '.join(ALLOWED_EXTENSIONS)}"
+        ),
     )
     alarm_file_group.add_argument(
         "-f", "--file", help="File path to song to play as alarm"
@@ -110,10 +116,9 @@ def _validate_file(file: str) -> None:
     """Make sure we get a music file that exists"""
     if not Path(file).exists():
         raise AlarmFileException(f"{file} does not exist")
-    allowed_extensions = ("mp3", "mp4", "wav")
-    if not Path(file).suffix.endswith(allowed_extensions):
+    if not Path(file).suffix in ALLOWED_EXTENSIONS:
         raise AlarmFileException(
-            f"{file} is not supported ({', '.join(allowed_extensions)} files are)"
+            f"{file} is not supported ({', '.join(ALLOWED_EXTENSIONS)} files are)"
         )
 
 
