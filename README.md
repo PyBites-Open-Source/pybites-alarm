@@ -7,7 +7,7 @@ Play a music file after an interval of N minutes. You can configure the tune to 
 ```
 git clone git@github.com:PyBites-Open-Source/pybites-alarm.git
 cd pybites-alarm
-make install
+make setup
 make test
 ```
 
