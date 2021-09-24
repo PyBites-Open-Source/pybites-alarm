@@ -6,7 +6,7 @@ build-backend = "flit_core.buildapi"
 name = "pybites-alarm"
 authors = [{name = "PyBites", email = "support@pybit.es"}]
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
 dependencies = [
