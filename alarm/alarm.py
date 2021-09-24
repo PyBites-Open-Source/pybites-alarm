@@ -1,13 +1,13 @@
 import argparse
 import os
 from pathlib import Path
-import multiprocessing
 import random
 import sys
 import time
 
 from dotenv import load_dotenv
-from playsound import playsound
+from pydub import AudioSegment
+from pydub.playback import _play_with_simpleaudio
 
 from . import __version__
 
@@ -39,13 +39,16 @@ def countdown_and_play_alarm(
 
 
 def play_alarm_file(alarm_file: str, timeout: int = ALARM_DURATION_IN_SECONDS) -> None:
-    """Play alarm file for a number of seconds, got the idea for timeout
-    from here: https://stackoverflow.com/a/52995334
     """
-    proc = multiprocessing.Process(target=playsound, args=(alarm_file,))
-    proc.start()
-    proc.join(timeout=timeout)
-    proc.terminate()
+    Looking at pydub/playback.py simpleaudio has the ability to stop the song
+    """
+    file_type = Path(alarm_file).suffix.lstrip(".")
+    song = AudioSegment.from_file(alarm_file, file_type)
+    # I know, should not use "internal" functions, but this was the only way
+    # to stop the song after a number of seconds
+    playback = _play_with_simpleaudio(song)
+    time.sleep(timeout)
+    playback.stop()
 
 
 def parse_args(args):
