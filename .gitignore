@@ -5,3 +5,4 @@ alarm.egg-info/
 __pycache__
 .coverage*
 venv
+.tox
