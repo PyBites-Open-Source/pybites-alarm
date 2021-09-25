@@ -36,7 +36,7 @@ You can also set `ALARM_DURATION_IN_SECONDS=<number_of_seconds_int>` to stop the
 ## Usage
 
 ```
-$ python -m alarm.alarm -h
+$ python -m alarm -h
 usage: alarm.py [-h] (-s SECONDS | -m MINUTES) [-b | -d] [-l SONG_LIBRARY | -f FILE | -v]
 
 Play an alarm after N minutes
