@@ -12,7 +12,7 @@ typing:
 
 .PHONY: test
 test:
-	pytest
+	tox
 
 .PHONY: coverage
 coverage:

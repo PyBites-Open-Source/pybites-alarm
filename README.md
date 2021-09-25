@@ -2,13 +2,24 @@
 
 Play a music file after an interval of N minutes. You can configure the tune to play ...
 
-## Setup
+## Install the tool
 
 ```
-git clone git@github.com:PyBites-Open-Source/pybites-alarm.git
-cd pybites-alarm
-make install
-make test
+$ pip install pybites-alarm
+$ alarm
+usage: alarm [-h] (-s SECONDS | -m MINUTES) [-b | -d]
+             [-l SONG_LIBRARY | -f FILE | -v]
+alarm: error: one of the arguments -s/--seconds -m/--minutes is required
+```
+
+## Developer setup
+
+```
+$ git clone git@github.com:PyBites-Open-Source/pybites-alarm.git
+$ cd pybites-alarm
+$ make setup
+$ source venv/bin/activate
+$ make test
 ```
 
 ## Configure
