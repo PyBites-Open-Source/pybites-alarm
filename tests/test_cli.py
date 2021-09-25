@@ -4,11 +4,10 @@ from unittest.mock import patch
 
 import pytest
 
-from alarm.cli import _get_file, _validate_file, get_alarm_file, parse_args
+from alarm.cli import parse_args
 from alarm.exceptions import AlarmFileException
-
-BIRDS_ALARM_FILE = Path("tests") / "payloads" / "birds.wav"
-NOT_SUPPORTED_ERROR = "is not supported.*.mp3, .mp4, .wav are."
+from alarm.files import _get_file, _validate_file, get_alarm_file
+from tests.constants import BIRDS_ALARM_FILE, NOT_SUPPORTED_ERROR
 
 
 def test_get_file_for_empty_library(tmpdir):

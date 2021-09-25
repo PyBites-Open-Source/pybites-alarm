@@ -1,14 +1,10 @@
-import os
 from pathlib import Path
 import time
 
-from dotenv import load_dotenv
 from pydub import AudioSegment
 from pydub.playback import _play_with_simpleaudio
 
-load_dotenv()
-
-ALARM_DURATION_IN_SECONDS = int(os.environ.get("ALARM_DURATION_IN_SECONDS", 20))
+from alarm.constants import ALARM_DURATION_IN_SECONDS
 
 
 def countdown_and_play_alarm(

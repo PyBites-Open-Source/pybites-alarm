@@ -1,13 +1,10 @@
 import os
-from pathlib import Path
 import sys
 from unittest.mock import patch
 
 from alarm.cli import parse_args
 from alarm.__main__ import main
-from tests.test_cli import BIRDS_ALARM_FILE
-
-FAKE_FILE = Path("tests") / "payloads" / "file.mp4"
+from tests.constants import BIRDS_ALARM_FILE, FAKE_FILE
 
 
 @patch("os.system")

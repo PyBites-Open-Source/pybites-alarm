@@ -3,7 +3,8 @@ from pathlib import Path
 import sys
 
 from alarm.alarm import countdown_and_play_alarm
-from alarm.cli import parse_args, get_alarm_file
+from alarm.cli import parse_args
+from alarm.files import get_alarm_file
 
 
 def main(args=None):

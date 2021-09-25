@@ -2,7 +2,7 @@ from datetime import datetime
 from unittest.mock import patch
 
 from alarm.alarm import play_alarm_file, countdown_and_play_alarm
-from tests.test_cli import BIRDS_ALARM_FILE
+from tests.constants import BIRDS_ALARM_FILE
 
 
 def test_play_alarm_file():
