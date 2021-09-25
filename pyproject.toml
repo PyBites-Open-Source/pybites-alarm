@@ -22,7 +22,7 @@ name = "alarm"
 Source = "https://github.com/PyBites-Open-Source/pybites-alarm"
 
 [project.scripts]
-alarm = "alarm.alarm:main"
+alarm = "alarm.__main__:main"
 
 [tool.tox]
 legacy_tox_ini = """

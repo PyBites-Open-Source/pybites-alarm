@@ -4,7 +4,7 @@ setup:
 
 .PHONY: lint
 lint:
-	flake8 --exclude venv
+	flake8 alarm tests
 
 .PHONY: typing
 typing:
