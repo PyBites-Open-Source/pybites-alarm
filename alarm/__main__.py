@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 import sys
 
 from alarm.alarm import countdown_and_play_alarm
@@ -28,9 +27,8 @@ def main(args=None):
         print(f"Playing alarm in {time_till_alarm}")
 
         package = __package__
-        module = Path(sys.argv[0]).stem
 
-        cmd = f"{sys.executable} -m {package}.{module} -s {seconds} -f '{alarm_file}' &"
+        cmd = f"{sys.executable} -m {package} -s {seconds} -f '{alarm_file}' &"
         os.system(cmd)
     else:
         try:

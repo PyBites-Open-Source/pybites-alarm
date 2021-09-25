@@ -12,7 +12,7 @@ def test_main_background_with_specified_file(os_mock, capfd):
     args = parse_args(["-s", "3", "-b", "-f", str(BIRDS_ALARM_FILE)])
     main(args)
     os_mock.assert_called_with(
-        f"{sys.executable} -m alarm.pytest -s 3 -f '{str(BIRDS_ALARM_FILE)}' &"
+        f"{sys.executable} -m alarm -s 3 -f '{str(BIRDS_ALARM_FILE)}' &"
     )
     captured = capfd.readouterr()
     assert captured.out == "Playing alarm in 3 seconds\n"
@@ -24,7 +24,7 @@ def test_main_background_with_file_from_env(os_mock, capfd):
     args = parse_args(["-m", "1", "-b"])
     main(args)
     os_mock.assert_called_with(
-        f"{sys.executable} -m alarm.pytest -s 60 -f '{str(BIRDS_ALARM_FILE)}' &"
+        f"{sys.executable} -m alarm -s 60 -f '{str(BIRDS_ALARM_FILE)}' &"
     )
     captured = capfd.readouterr()
     assert captured.out == "Playing alarm in 1 minute\n"
