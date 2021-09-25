@@ -157,7 +157,8 @@ def main(args=None):
         package = __package__
         module = Path(sys.argv[0]).stem
 
-        os.system(f"python -m {package}.{module} -s {seconds} -f '{alarm_file}' &")
+        cmd = f"{sys.executable} -m {package}.{module} -s {seconds} -f '{alarm_file}' &"
+        os.system(cmd)
     else:
         try:
             countdown_and_play_alarm(
