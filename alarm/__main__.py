@@ -28,9 +28,8 @@ def main(args=None):
         print(f"Playing alarm in {time_till_alarm}")
 
         py_bin = sys.executable
-        package = __package__
 
-        cmd = f"{py_bin} -m {package} -s {seconds} -f '{alarm_file}'"
+        cmd = f"{py_bin} -m {__package__} -s {seconds} -f '{alarm_file}'"
         if args.timeout:
             cmd += f" -t {args.timeout}"
         cmd += " &"
