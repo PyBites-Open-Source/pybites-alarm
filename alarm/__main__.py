@@ -45,7 +45,7 @@ def main(args=None):
             )
 
             if args.message and TMP_SONG.exists():
-                os.remove(TMP_SONG)
+                TMP_SONG.unlink()
         except KeyboardInterrupt:  # pragma: no cover
             pass
 

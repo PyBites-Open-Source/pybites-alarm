@@ -1,13 +1,11 @@
 from io import StringIO
 from functools import partial
-import os
 from pathlib import Path
 
 import psutil
 from audio_program_generator.apg import AudioProgramGenerator
 
-TMP = Path(os.getenv("TMP", "/tmp"))
-TMP_SONG = TMP / "alarm.mp3"
+from alarm.constants import TMP_SONG
 
 
 def process_is_running(cmd: str, args: str) -> bool:

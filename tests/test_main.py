@@ -4,6 +4,7 @@ from time import sleep
 from unittest.mock import patch
 
 from alarm.cli import parse_args
+from alarm.constants import TMP_SONG
 from alarm.__main__ import main
 from alarm.utils import alarm_process_is_running
 from tests.constants import BIRDS_ALARM_FILE, FAKE_FILE
@@ -70,3 +71,9 @@ def test_background_process_starts_and_terminates():
     assert alarm_process_is_running() is True
     sleep(3)
     assert alarm_process_is_running() is False
+
+
+def test_voice_alarm_temp_file_cleanup():
+    parsed_args = parse_args(["-s", "1", "-M", "code Python", "-t", "2"])
+    main(parsed_args)
+    assert not TMP_SONG.exists()

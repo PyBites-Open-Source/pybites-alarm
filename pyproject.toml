@@ -15,6 +15,7 @@ dependencies = [
     "simpleaudio >=1.0.4",
     "psutil >=5.8.0",
     "audio-program-generator >=1.6.3",
+    "SpeechRecognition >=3.8.1",
 ]
 
 [tool.flit.module]
