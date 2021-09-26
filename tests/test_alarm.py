@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 from unittest.mock import patch
 
 from alarm.alarm import play_alarm_file, countdown_and_play_alarm
@@ -34,4 +35,4 @@ def test_voice_alarm_text():
     actual = get_text_from_audio_file(file)
     expected = "take the trash out take the trash out take the trash out"
     assert actual == expected
-    file.unlink()
+    Path(file).unlink()

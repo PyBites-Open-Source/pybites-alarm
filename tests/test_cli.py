@@ -49,7 +49,7 @@ def test_get_file_for_file(tmpdir):
 
 def test_get_file_for_message(tmpdir):
     args = parse_args(["-s", "3", "-M", "code Python"])
-    assert _get_file(args) == TMP_SONG
+    assert _get_file(args) == str(TMP_SONG)
 
 
 def test_get_file_from_env(tmpdir):
