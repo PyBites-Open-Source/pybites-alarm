@@ -49,6 +49,9 @@ def parse_args(args):
         "-f", "--file", help="File path to song to play as alarm"
     )
     alarm_file_group.add_argument(
+        "-M", "--message", help="Set an audio message to play for alarm"
+    )
+    alarm_file_group.add_argument(
         "-v", "--version", action="version", version=f"%(prog)s {__version__}"
     )
     return parser.parse_args(args)

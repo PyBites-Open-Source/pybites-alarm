@@ -4,6 +4,7 @@ from pathlib import Path
 
 from alarm.constants import ALLOWED_EXTENSIONS
 from alarm.exceptions import AlarmFileException
+from alarm.utils import create_alarm_audio_file
 
 
 def _get_file(args) -> str:
@@ -18,6 +19,8 @@ def _get_file(args) -> str:
             return ""
     elif args.file:
         return args.file
+    elif args.message:
+        return create_alarm_audio_file(args.message)
     else:
         return os.environ["ALARM_MUSIC_FILE"]
 

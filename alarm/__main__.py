@@ -4,6 +4,7 @@ import sys
 from alarm.alarm import countdown_and_play_alarm
 from alarm.cli import parse_args
 from alarm.files import get_alarm_file
+from alarm.utils import TMP_SONG
 
 
 def main(args=None):
@@ -35,6 +36,9 @@ def main(args=None):
             countdown_and_play_alarm(
                 seconds, alarm_file, display_timer=args.display_timer
             )
+
+            if TMP_SONG.exists():
+                os.remove(TMP_SONG)
         except KeyboardInterrupt:  # pragma: no cover
             pass
 
