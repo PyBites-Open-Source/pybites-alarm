@@ -2,8 +2,9 @@ from datetime import datetime
 from unittest.mock import patch
 
 from alarm.alarm import play_alarm_file, countdown_and_play_alarm
-from alarm.utils import create_alarm_audio_file, get_text_from_audio_file
+from alarm.utils import create_alarm_audio_file
 from tests.constants import BIRDS_ALARM_FILE, BIRDS_ALARM_FRAGMENT
+from tests.utils import get_text_from_audio_file
 
 
 def test_play_alarm_file_no_timeout():
