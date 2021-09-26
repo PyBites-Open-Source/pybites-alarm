@@ -1,12 +1,8 @@
 from datetime import datetime
-import os
 from unittest.mock import patch
 
-from pydub import AudioSegment
-import speech_recognition as sr
-
 from alarm.alarm import play_alarm_file, countdown_and_play_alarm
-from alarm.utils import create_alarm_audio_file
+from alarm.utils import create_alarm_audio_file, get_text_from_audio_file
 from tests.constants import BIRDS_ALARM_FILE, BIRDS_ALARM_FRAGMENT
 
 
@@ -34,19 +30,7 @@ def test_countdown_and_play_alarm(play_mock, capfd):
 def test_voice_alarm_text():
     file = create_alarm_audio_file("take the trash out")
     countdown_and_play_alarm(0, file, timeout=2)
-    recognizer = sr.Recognizer()
-
-    sound = AudioSegment.from_mp3(str(file))
-    transcript_wav = "transcript.wav"
-    sound.export(transcript_wav, format="wav")
-
-    with sr.AudioFile(transcript_wav) as source:
-        audio = recognizer.record(source)
-        ret = recognizer.recognize_google(audio, show_all=True)
-
-    actual = ret["alternative"][0]["transcript"]
+    actual = get_text_from_audio_file(file)
     expected = "take the trash out take the trash out take the trash out"
     assert actual == expected
-
     file.unlink()
-    os.remove(transcript_wav)
