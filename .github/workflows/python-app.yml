@@ -29,4 +29,4 @@ jobs:
         mypy alarm tests
     - name: Run tests
       run: |
-        tox -- -k "not test_play_alarm_file"
+        tox -- -k "not test_play_alarm_file and not test_voice_alarm"
