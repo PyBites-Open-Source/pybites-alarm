@@ -7,7 +7,7 @@ from alarm.cli import parse_args
 from alarm.constants import TMP_SONG
 from alarm.__main__ import main
 from tests.constants import BIRDS_ALARM_FILE, FAKE_FILE
-from tests.utils import alarm_process_is_running
+from tests.helpers import alarm_process_is_running
 
 
 @patch("os.system")

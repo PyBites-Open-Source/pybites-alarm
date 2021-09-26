@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 from alarm.constants import ALLOWED_EXTENSIONS
 from alarm.exceptions import AlarmFileException
-from alarm.utils import create_alarm_audio_file
+from alarm.audio import create_alarm_audio_file
 
 
 def _get_file(args) -> str:
