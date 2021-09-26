@@ -31,8 +31,6 @@ $ cat .env
 ALARM_MUSIC_FILE=/Users/bbelderbos/Music/alarm.mp4
 ```
 
-You can also set `ALARM_DURATION_IN_SECONDS=<number_of_seconds_int>` to stop the alarm after N seconds.
-
 ## Usage
 
 ```

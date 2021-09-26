@@ -1,14 +1,16 @@
 from pathlib import Path
 import time
+from typing import Optional
 
 from pydub import AudioSegment
 from pydub.playback import _play_with_simpleaudio
 
-from alarm.constants import ALARM_DURATION_IN_SECONDS
-
 
 def countdown_and_play_alarm(
-    seconds: int, alarm_file: str, display_timer: bool = False
+    seconds: int,
+    alarm_file: str,
+    display_timer: bool = False,
+    timeout: Optional[int] = None,
 ) -> None:
     """Countdown N seconds then play an alarm file"""
     while seconds:
@@ -21,10 +23,10 @@ def countdown_and_play_alarm(
     if display_timer:
         print("00:00", end="\r")
 
-    play_alarm_file(alarm_file)
+    play_alarm_file(alarm_file, timeout)
 
 
-def play_alarm_file(alarm_file: str, timeout: int = ALARM_DURATION_IN_SECONDS) -> None:
+def play_alarm_file(alarm_file: str, timeout: Optional[int] = None) -> None:
     """
     Looking at pydub/playback.py simpleaudio has the ability to stop the song
     """
@@ -33,5 +35,8 @@ def play_alarm_file(alarm_file: str, timeout: int = ALARM_DURATION_IN_SECONDS) -
     # I know, should not use "internal" functions, but this was the only way
     # to stop the song after a number of seconds
     playback = _play_with_simpleaudio(song)
-    time.sleep(timeout)
-    playback.stop()
+    if isinstance(timeout, int):
+        time.sleep(timeout)
+        playback.stop()
+    else:
+        playback.wait_done()

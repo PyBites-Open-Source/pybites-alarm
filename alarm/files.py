@@ -2,6 +2,8 @@ import os
 import random
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from alarm.constants import ALLOWED_EXTENSIONS
 from alarm.exceptions import AlarmFileException
 from alarm.utils import create_alarm_audio_file
@@ -22,6 +24,7 @@ def _get_file(args) -> str:
     elif args.message:
         return create_alarm_audio_file(args.message)
     else:
+        load_dotenv()
         return os.environ["ALARM_MUSIC_FILE"]
 
 

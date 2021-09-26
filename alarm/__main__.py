@@ -27,17 +27,25 @@ def main(args=None):
 
         print(f"Playing alarm in {time_till_alarm}")
 
+        py_bin = sys.executable
         package = __package__
 
-        cmd = f"{sys.executable} -m {package} -s {seconds} -f '{alarm_file}' &"
+        cmd = f"{py_bin} -m {package} -s {seconds} -f '{alarm_file}'"
+        if args.timeout:
+            cmd += f" -t {args.timeout}"
+        cmd += " &"
+
         os.system(cmd)
     else:
         try:
             countdown_and_play_alarm(
-                seconds, alarm_file, display_timer=args.display_timer
+                seconds,
+                alarm_file,
+                display_timer=args.display_timer,
+                timeout=args.timeout,
             )
 
-            if TMP_SONG.exists():
+            if args.message and TMP_SONG.exists():
                 os.remove(TMP_SONG)
         except KeyboardInterrupt:  # pragma: no cover
             pass
