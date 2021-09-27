@@ -13,6 +13,7 @@ dependencies = [
     "python-dotenv >=0.19.0",
     "pydub >=0.25.1",
     "simpleaudio >=1.0.4",
+    "audio-program-generator >=1.6.3",
 ]
 
 [tool.flit.module]
@@ -31,6 +32,9 @@ envlist = python3.7,py38,py39
 isolated_build = True
 
 [testenv]
-deps = pytest
+deps =
+    pytest
+    psutil==5.8.0
+    SpeechRecognition==3.8.1
 commands = pytest {posargs}
 """

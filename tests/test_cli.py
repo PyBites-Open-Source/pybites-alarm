@@ -5,6 +5,7 @@ from unittest.mock import patch
 import pytest
 
 from alarm.cli import parse_args
+from alarm.constants import TMP_SONG
 from alarm.exceptions import AlarmFileException
 from alarm.files import _get_file, _validate_file, get_alarm_file
 from tests.constants import BIRDS_ALARM_FILE, NOT_SUPPORTED_ERROR
@@ -44,6 +45,11 @@ def test_get_file_for_file(tmpdir):
     music_file = str(tmpdir / "file.mp3")
     args = parse_args(["-s", "3", "-f", music_file])
     assert _get_file(args) == music_file
+
+
+def test_get_file_for_message(tmpdir):
+    args = parse_args(["-s", "3", "-M", "code Python"])
+    assert _get_file(args) == str(TMP_SONG)
 
 
 def test_get_file_from_env(tmpdir):

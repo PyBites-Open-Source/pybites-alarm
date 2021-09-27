@@ -4,6 +4,7 @@ import sys
 from alarm.alarm import countdown_and_play_alarm
 from alarm.cli import parse_args
 from alarm.files import get_alarm_file
+from alarm.constants import TMP_SONG
 
 
 def main(args=None):
@@ -26,15 +27,25 @@ def main(args=None):
 
         print(f"Playing alarm in {time_till_alarm}")
 
-        package = __package__
+        py_bin = sys.executable
 
-        cmd = f"{sys.executable} -m {package} -s {seconds} -f '{alarm_file}' &"
+        cmd = f"{py_bin} -m {__package__} -s {seconds} -f '{alarm_file}'"
+        if args.timeout:
+            cmd += f" -t {args.timeout}"
+        cmd += " &"
+
         os.system(cmd)
     else:
         try:
             countdown_and_play_alarm(
-                seconds, alarm_file, display_timer=args.display_timer
+                seconds,
+                alarm_file,
+                display_timer=args.display_timer,
+                timeout=args.timeout,
             )
+
+            if args.message and TMP_SONG.exists():
+                TMP_SONG.unlink()
         except KeyboardInterrupt:  # pragma: no cover
             pass
 
