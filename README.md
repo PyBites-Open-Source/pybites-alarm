@@ -11,7 +11,7 @@ usage: alarm [-h] (-s SECONDS | -m MINUTES) [-b | -d] [-l SONG_LIBRARY | -f FILE
 alarm: error: one of the arguments -s/--seconds -m/--minutes is required
 ```
 
-**Note** that you'll need [`ffmpeg`](https://www.gyan.dev/ffmpeg/builds/) to play an alarm sound file. You'll also need [`libasound2-dev`](https://packages.debian.org/sid/libasound2-dev) on Linux / WSL2. On Windows you will additionally need [Visual Studio tools](https://visualstudio.microsoft.com/downloads/).
+**Note** that you'll need [`ffmpeg`](https://www.gyan.dev/ffmpeg/builds/) to play an alarm sound file. You'll also need [`libasound2-dev`](https://packages.debian.org/sid/libasound2-dev) on Linux. On Windows you will additionally need [Visual Studio tools](https://visualstudio.microsoft.com/downloads/). Currently it does not work great yet on WSL.
 
 ## Usage
 
