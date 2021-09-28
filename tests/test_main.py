@@ -3,13 +3,18 @@ import sys
 from time import sleep
 from unittest.mock import patch
 
+import pytest
+
 from alarm.cli import parse_args
-from alarm.constants import TMP_SONG
+from alarm.constants import TMP_SONG, ON_WINDOWS
 from alarm.__main__ import main
 from tests.constants import BIRDS_ALARM_FILE, FAKE_FILE
 from tests.helpers import alarm_process_is_running
 
+BACKGROUND_SKIP_REASON = "Background option not supported on Windows"
 
+
+@pytest.mark.skipif(ON_WINDOWS, reason=BACKGROUND_SKIP_REASON)
 @patch("os.system")
 def test_main_background_with_specified_file(os_mock, capfd):
     parsed_args = parse_args(["-s", "3", "-b", "-f", str(BIRDS_ALARM_FILE)])
@@ -21,6 +26,7 @@ def test_main_background_with_specified_file(os_mock, capfd):
     assert captured.out == "Playing alarm in 3 seconds\n"
 
 
+@pytest.mark.skipif(ON_WINDOWS, reason=BACKGROUND_SKIP_REASON)
 @patch("os.system")
 def test_main_background_with_timeout(os_mock, capfd):
     parsed_args = parse_args(["-s", "3", "-b", "-f", str(BIRDS_ALARM_FILE), "-t", "2"])
@@ -30,6 +36,7 @@ def test_main_background_with_timeout(os_mock, capfd):
     )
 
 
+@pytest.mark.skipif(ON_WINDOWS, reason=BACKGROUND_SKIP_REASON)
 @patch("os.system")
 @patch.dict(os.environ, {"ALARM_MUSIC_FILE": str(BIRDS_ALARM_FILE)})
 def test_main_background_with_file_from_env(os_mock, capfd):
@@ -60,6 +67,7 @@ def test_main_foreground_different_duration_and_file(countdown_mock, capfd):
     )
 
 
+@pytest.mark.skipif(ON_WINDOWS, reason=BACKGROUND_SKIP_REASON)
 def test_background_process_starts_and_terminates():
     """
     This test checks if the alarm process is running in the background and

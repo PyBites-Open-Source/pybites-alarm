@@ -19,7 +19,8 @@ def main(args=None):
 
     alarm_file = get_alarm_file(args)
 
-    if args.background:
+    # on Windows might not have background option set
+    if getattr(args, "background", False):
         if minutes < 1:
             time_till_alarm = f"{seconds} seconds"
         else:
