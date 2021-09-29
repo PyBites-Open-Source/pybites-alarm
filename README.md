@@ -17,7 +17,7 @@ alarm: error: one of the arguments -s/--seconds -m/--minutes is required
 
 You can specify an interval time using seconds (`-s`) or minutes (`-m`).
 
-By default it runs in the foreground, but you can run it in the background using `b`.
+By default it runs in the foreground, but on Mac/Linux (not Windows) you can run it in the background using `-b`.
 
 To display the seconds countdown use `-d`.
 
@@ -41,6 +41,8 @@ alarm -M "stand up for a walk" -m 20 -b
 ```
 
 A voice repeats "stand up for a walk" three times after 20 minutes. Pretty useful for programmers :)
+
+**Note** that we have a PR open with `apg` to hide the `tqdm` progress bar that shows with the `-M` option.
 
 For long alarm files you can set a timeout to stop the alarm after N seconds using the `t` (`--timeout`) switch.
 
@@ -70,3 +72,11 @@ optional arguments:
   -v, --version         show program's version number and exit
   -t TIMEOUT, --timeout TIMEOUT
 ```
+
+Again the `-b` option is not available on Windows, although it seems you can get that working with:
+
+```
+start /b alarm -s 3 -f test.mp3
+```
+
+This backgrounds a process on windows and CTRL + BREAK/SCRLLCK kills it. Or use the `-t` option, e.g. `start /b alarm -s 3 -f test.mp3 -t 20` (thanks Lee!)
