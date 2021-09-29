@@ -1,6 +1,7 @@
 import argparse
+
 from alarm import __version__
-from alarm.constants import ALLOWED_EXTENSIONS
+from alarm.constants import ALLOWED_EXTENSIONS, ON_WINDOWS
 
 
 def parse_args(args):
@@ -21,13 +22,14 @@ def parse_args(args):
     )
 
     run_mode_group = parser.add_mutually_exclusive_group()
-    run_mode_group.add_argument(
-        "-b",
-        "--background",
-        action="store_true",
-        default=False,
-        help="Run timer in the background",
-    )
+    if not ON_WINDOWS:
+        run_mode_group.add_argument(
+            "-b",
+            "--background",
+            action="store_true",
+            default=False,
+            help="Run timer in the background",
+        )
     run_mode_group.add_argument(
         "-d",
         "--display_timer",
