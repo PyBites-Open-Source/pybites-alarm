@@ -30,9 +30,9 @@ def test_countdown_and_play_alarm(play_mock, capfd):
 
 
 def test_voice_alarm_text():
-    file = create_alarm_audio_file("take the trash out")
+    sentence = "take the trash out"
+    file = create_alarm_audio_file(sentence)
     countdown_and_play_alarm(0, file, timeout=2)
     actual = get_text_from_audio_file(file)
-    expected = "take the trash out take the trash out take the trash out"
-    assert actual == expected
+    assert actual.startswith(sentence)
     Path(file).unlink()
