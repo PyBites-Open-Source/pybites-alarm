@@ -13,7 +13,7 @@ dependencies = [
     "python-dotenv >=0.19.0",
     "pydub >=0.25.1",
     "simpleaudio >=1.0.4",
-    "audio-program-generator >=1.6.3",
+    "audio-program-generator >=1.6.5",
 ]
 
 [tool.flit.module]
