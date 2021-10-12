@@ -32,6 +32,8 @@ There are three ways to play an alarm file:
 	ALARM_MUSIC_FILE=/Users/bbelderbos/Music/alarm.mp4
 	```
 
+### Voice messages
+
 It can be confusing when a music file plays so since `0.0.4` you can play a voice message instead using `-M` (`--message`).
 
 For example:
@@ -42,9 +44,21 @@ alarm -M "stand up for a walk" -m 20 -b
 
 A voice repeats "stand up for a walk" three times after 20 minutes. Pretty useful for programmers :)
 
-**Note** that we have a PR open with `apg` to hide the `tqdm` progress bar that shows with the `-M` option.
+### Duration of the alarm
 
 For long alarm files you can set a timeout to stop the alarm after N seconds using the `t` (`--timeout`) switch.
+
+### Repeating an alarm
+
+Since version `0.0.6` you can repeat an alarm using the `-r` switch. For example, to track 25 minute _pomodoro_ time blocks (as per the [Pomodoro Technique](https://en.wikipedia.org/wiki/Pomodoro_Technique)), you can run this command:
+
+```
+alarm -m 25 -M "pomodoro completed" -r 4
+```
+
+A voice will notify you every 25 minutes (for 4 times) that you have completed a _pomodoro_.
+
+Another use case is to have it alert you to stand up and drink more water during the day - direct health benefits :)
 
 ---
 
@@ -71,6 +85,9 @@ optional arguments:
                         Set an audio message to play for alarm (default: None)
   -v, --version         show program's version number and exit
   -t TIMEOUT, --timeout TIMEOUT
+                        Stop alarm after N seconds (default: None)
+  -r REPEAT, --repeat REPEAT
+                        Repeat alarm cycle N times (only works in foreground) (default: 1)
 ```
 
 Again the `-b` option is not available on Windows, although it seems you can get that working with:
