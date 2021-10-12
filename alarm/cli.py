@@ -56,5 +56,12 @@ def parse_args(args):
     parser.add_argument(
         "-v", "--version", action="version", version=f"%(prog)s {__version__}"
     )
-    parser.add_argument("-t", "--timeout", type=int)
+    parser.add_argument("-t", "--timeout", type=int, help="Stop alarm after N seconds")
+    parser.add_argument(
+        "-r",
+        "--repeat",
+        type=int,
+        default=1,
+        help="Repeat alarm cycle N times (only works in foreground)",
+    )
     return parser.parse_args(args)

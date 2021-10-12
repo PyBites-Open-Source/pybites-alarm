@@ -28,7 +28,7 @@ def test_main_background_with_specified_file(os_mock, capfd):
 
 @pytest.mark.skipif(ON_WINDOWS, reason=BACKGROUND_SKIP_REASON)
 @patch("os.system")
-def test_main_background_with_timeout(os_mock, capfd):
+def test_main_background_with_timeout(os_mock):
     parsed_args = parse_args(["-s", "3", "-b", "-f", str(BIRDS_ALARM_FILE), "-t", "2"])
     main(parsed_args)
     os_mock.assert_called_with(
@@ -50,7 +50,7 @@ def test_main_background_with_file_from_env(os_mock, capfd):
 
 
 @patch("alarm.__main__.countdown_and_play_alarm")
-def test_main_foreground_with_timer(countdown_mock, capfd):
+def test_main_foreground_with_timer(countdown_mock):
     parsed_args = parse_args(["-m", "1", "-d", "-f", str(BIRDS_ALARM_FILE)])
     main(parsed_args)
     countdown_mock.assert_called_with(
@@ -59,7 +59,7 @@ def test_main_foreground_with_timer(countdown_mock, capfd):
 
 
 @patch("alarm.__main__.countdown_and_play_alarm")
-def test_main_foreground_different_duration_and_file(countdown_mock, capfd):
+def test_main_foreground_different_duration_and_file(countdown_mock):
     parsed_args = parse_args(["-m", "5", "-f", str(FAKE_FILE)])
     main(parsed_args)
     countdown_mock.assert_called_with(
@@ -85,3 +85,10 @@ def test_voice_alarm_temp_file_cleanup():
     parsed_args = parse_args(["-s", "1", "-M", "code Python", "-t", "2"])
     main(parsed_args)
     assert not TMP_SONG.exists()
+
+
+@patch("alarm.__main__.countdown_and_play_alarm")
+def test_repeated_alarm_for_pomodoros(countdown_mock):
+    parsed_args = parse_args(["-m", "25", "-M", "wrap up pomodoro", "-r", "4"])
+    main(parsed_args)
+    assert countdown_mock.call_count == 4

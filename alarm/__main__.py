@@ -37,18 +37,20 @@ def main(args=None):
 
         os.system(cmd)
     else:
-        try:
-            countdown_and_play_alarm(
-                seconds,
-                alarm_file,
-                display_timer=args.display_timer,
-                timeout=args.timeout,
-            )
+        for i in range(1, args.repeat + 1):
+            try:
+                countdown_and_play_alarm(
+                    seconds,
+                    alarm_file,
+                    display_timer=args.display_timer,
+                    timeout=args.timeout,
+                )
 
-            if args.message and TMP_SONG.exists():
-                TMP_SONG.unlink()
-        except KeyboardInterrupt:  # pragma: no cover
-            pass
+                if args.message and i == args.repeat:
+                    if TMP_SONG.exists():
+                        TMP_SONG.unlink()
+            except KeyboardInterrupt:  # pragma: no cover
+                pass
 
 
 if __name__ == "__main__":  # pragma: no cover

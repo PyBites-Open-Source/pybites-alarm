@@ -15,7 +15,7 @@ test:
 	tox
 
 .PHONY: coverage
-coverage:
+cov:
 	pytest --cov=alarm --cov-report term-missing
 
 .PHONY: ci
