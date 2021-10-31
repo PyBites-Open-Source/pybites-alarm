@@ -2,6 +2,17 @@
 
 Play a music file or voice message after an interval of N minutes or seconds.
 
+----
+## Table of Contents
+- [PyBites Alarm](#pybites-alarm)
+  * [Install the tool](#install-the-tool)
+  * [Usage](#usage)
+    + [Voice messages](#voice-messages)
+    + [Duration of the alarm](#duration-of-the-alarm)
+    + [Repeating an alarm](#repeating-an-alarm)
+  * [Installing ffmpeg on Windows](#installing-ffmpeg-on-windows)
+----
+
 ## Install the tool
 
 ```
@@ -11,7 +22,7 @@ usage: alarm [-h] (-s SECONDS | -m MINUTES) [-b | -d] [-l SONG_LIBRARY | -f FILE
 alarm: error: one of the arguments -s/--seconds -m/--minutes is required
 ```
 
-**Note** that you'll need [`ffmpeg`](https://www.gyan.dev/ffmpeg/builds/) to play an alarm sound file. You'll also need [`libasound2-dev`](https://packages.debian.org/sid/libasound2-dev) on Linux. On Windows you will additionally need [Visual Studio tools](https://visualstudio.microsoft.com/downloads/). Currently it does not work great yet on WSL.
+**Note** that you'll need [`ffmpeg`](https://www.gyan.dev/ffmpeg/builds/) to play an alarm sound file. You'll also need [`libasound2-dev`](https://packages.debian.org/sid/libasound2-dev) on Linux. On Windows you will additionally need [Visual Studio tools](https://visualstudio.microsoft.com/downloads/). Currently it does not work great yet on WSL. See section ***Installing ffmpeg on Windows* for more details**.
 
 ## Usage
 
@@ -96,4 +107,26 @@ Again the `-b` option is not available on Windows, although it seems you can get
 start /b alarm -s 3 -f test.mp3
 ```
 
-This backgrounds a process on windows and CTRL + BREAK/SCRLLCK kills it. Or use the `-t` option, e.g. `start /b alarm -s 3 -f test.mp3 -t 20` (thanks Lee!)
+This backgrounds a process on windows and CTRL + BREAK/SCRLLCK kills it. Or use the `-t` option, e.g. `start /b alarm -s 3 -f test.mp3 -t 20` (thanks [Lee](https://github.com/l1dge)!)
+
+## Installing ffmpeg on Windows
+
+Installing [`ffmpeg`](https://www.gyan.dev/ffmpeg/builds/) on Windows isn't as intuitive as we'd like so we thought we'd include a quick install guide for this too. The following is performed on Windows 10 and has not been tested on any other Windows releases.
+
+1. Head to the [`ffmpeg` builds page](https://www.gyan.dev/ffmpeg/builds/).
+2. Scroll down to *release builds* and select the latest `ffmpeg-release-full.7z` available file for download. This downloads the latest ffmpeg binaries.
+3. Extract the files to a folder where you'd like ffmpeg to exist in your file system. Feel free to leave it in your Downloads folder, it doesn't really matter.
+
+> **Note:** `pybites-alarm` utilises ffmpeg assuming it's in your path so you'll need to add the file path of the ffmpeg `bin` folder to your Windows `PATH` environment variable.
+
+4. Open yout Start menu and type in *env*. The first search result returned should be "Edit the system environment variables". This setting lives in your Advanced System Properties. In the window that opens, click *Environment Variables*.
+5. In the window that opens you'll see two separate variable sections: *User variables for username* and *System variables*. The former set of variables are unique to your Windows user profile, the latter variables are system wide so will affect all users on your PC. We suggest focusing on the section just for your unique user.
+6. Click the *Path* variable and click *Edit*.
+7. In the next window that opens, click *New*. This creates a text entry box under the last variable in the list.
+8. Enter the full path to the ffmpeg `bin` folder. E.g.: `C:\Users\pybites\Downloads\ffmpeg-4.4.1-full_build\ffmpeg-4.4.1-full_build\bin`. Click OK.
+9. Click OK on the Environment Variables window and then on the System Properties window too.
+10. If you had any programs using the windows shell open, refresh or close and reopen them to pick up the environment variable changes.
+11. You should now be able to run `alarm` as described earlier in this README.
+
+----
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
